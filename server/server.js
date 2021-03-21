@@ -1,5 +1,4 @@
 const express = require('express');
-// const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -23,9 +22,6 @@ app.get('/', (req, res) => {
   res.send('hello world');
 })
 
-///TODO: need to use a router to organize the following routes
-
-
 // create a post route '/signup'
 app.post('/signup', userController.createUser, cookieController.setCookie, sessionController.startSession, (req, res) => {
   // respond with status 200
@@ -38,9 +34,7 @@ app.post('/login', userController.verifyUser, cookieController.setCookie, sessio
 });
 
 //TODO: add middleware to delete session when user logs out
-// app.post('/logout', userController.verifyUser, cookieController.setCookie, sessionController.startSession, (req, res) => {
-//   res.status(200).send('User logged in.');
-// });
+
 app.post('/links', linkController.addLinks, (req, res) => {
   res.status(200).send('Link added to database');
 });
@@ -55,7 +49,6 @@ app.get('/links/top3list', linkController.getTop3, (req, res) => {
 app.get('/getArticles/:priority', linkController.getLinks, (req, res) => {
   res.status(200).json(res.locals.links);
 });
-
 
 // bad route error handling
 app.use((req, res) => res.sendStatus(404));

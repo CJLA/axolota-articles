@@ -1,5 +1,3 @@
-// const db = require('./models/linksWalletModel');
-
 const cookieController = {};
 
 // creates cookie at the beginning of the session
