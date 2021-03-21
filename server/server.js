@@ -10,11 +10,11 @@ const sessionController = require('./controllers/sessionController');
 require('dotenv').config();
 
 // create instance of server
+const { PORT } = process.env;
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-
 app.use(cors());
 
 // taking in get request and sending back a response to the client
@@ -24,7 +24,6 @@ app.get('/', (req, res) => {
 
 // create a post route '/signup'
 app.post('/signup', userController.createUser, cookieController.setCookie, sessionController.startSession, (req, res) => {
-  // respond with status 200
   res.status(200).send('User created.');
 });
 
@@ -53,7 +52,7 @@ app.get('/getArticles/:priority', linkController.getLinks, (req, res) => {
 // bad route error handling
 app.use((req, res) => res.sendStatus(404));
 
-// global error handling
+// express global error handling
 app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
@@ -65,6 +64,7 @@ app.use((err, req, res, next) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-// telling server which port to listen on
-// starts the server; binding app to port and listens on port 3000 for connections
-app.listen(process.env.PORT, () => console.log('app is a badass mf!'))
+// starts the server; binding app to port and listens on port for connections
+app.listen(PORT, () => {
+  console.log(`Server running on port:${PORT}`)
+});
